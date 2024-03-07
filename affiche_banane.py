@@ -2,7 +2,7 @@ import cv2 as cv
 import numpy as np
 from math import sqrt
 
-cap = cv.VideoCapture(1)
+cap = cv.VideoCapture(0)
 largeur  = cap.get(cv.CAP_PROP_FRAME_WIDTH )
 hauteur = cap.get(cv.CAP_PROP_FRAME_HEIGHT )
 #définition du dictionnaire de markers
