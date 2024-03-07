@@ -7,6 +7,8 @@ class Icone:
         """construit une icone avec : - une image en png pour la transparence - une coordonnée en x et y par défaut en haut à gauche - la taille par défaut de l'image en pixel"""
         self.x = 0
         self.y = 0
+        self.dropped = False
+        self.has_collision = False
         self.taille = 50
         self.image = cv.imread(fichier_image)
         # on reduit la taille de l'image
@@ -25,6 +27,34 @@ class Icone:
         zone_masque = fenetre[x:self.taille+x, y:self.taille+y]
         zone_masque[np.where(masque)] = 0
         zone_masque += self.image
+
+    def afficher_icone_centre(self, fenetre, x, y):
+        """afficher le centre de l'icone dans la fenetre aux coordonnées x et y"""
+        if self.dropped:
+            x=self.x
+            y=self.y
+        if x != None and y != None:
+            masque = self.create_mask()
+            # on affiche une banane
+            zone_masque = fenetre[y-self.taille//2:self.taille//2+y,
+                                  x-self.taille//2:self.taille//2+x]
+            coord_x, coord_y, c = np.shape(zone_masque)
+            self.y = y
+            self.x = x
+            if coord_x == self.taille and coord_y ==self.taille:
+                zone_masque[np.where(masque)] = 0
+                zone_masque += self.image
+            
+    def afficher_icone_derriere(self, fenetre, x, y):
+        """afficher le centre de l'icone à l'arriere du tag aruco détecté"""
+        masque = self.create_mask()
+        # on affiche une banane
+        zone_masque = fenetre[(y+self.taille)-self.taille//2:self.taille//2+(y+self.taille),
+                              x-self.taille//2:self.taille//2+x]
+        coord_x, coord_y, c = np.shape(zone_masque)
+        if coord_x == self.taille and coord_y ==self.taille:
+            zone_masque[np.where(masque)] = 0
+            zone_masque += self.image
         
 def distance(a:tuple, b:tuple) -> float:
     """calcul une distance entre deux points"""
