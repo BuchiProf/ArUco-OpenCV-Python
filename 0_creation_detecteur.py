@@ -1,3 +1,4 @@
+# installer la bibliothèque "opencv-python" avec pip d'abord
 import cv2 as cv
 import numpy as np
  
